@@ -1,0 +1,4 @@
+EMAIL_MAXIMUM: 255
+NAME_MAXIMUM: 50
+PASSWORD_MINIMUM: 6
+VALID_EMAIL_REGEX: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
