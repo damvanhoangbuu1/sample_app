@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   def show
-    @user = User.find_by_id(params[:id])
+    @user = User.find_by(id: params[:id])
+    return if @user
+    flash[:warning] = "User not fond"
+    redirect_to root_path
   end
 
   def new
