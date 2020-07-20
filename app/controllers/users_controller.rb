@@ -3,7 +3,9 @@ class UsersController < ApplicationController
   before_action :logged_in_user, except: [:create, :new]
   before_action :correct_user, only: [:edit, :update, :show]
   before_action :admin_user, only: :destroy
-  def show; end
+  def show
+    @microposts = @user.microposts.paginate(page: params[:page])
+  end
 
   def new
     @user = User.new
@@ -43,20 +45,11 @@ class UsersController < ApplicationController
   def index
     @users = User.paginate(page: params[:page])
   end
-  
 
   private
   def user_params
     params.require(:user).permit(:name, :email, :password,
                                  :password_confimation)
-  end
-
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in!!"
-      redirect_to login_url
-    end
   end
 
   def correct_user
@@ -70,6 +63,7 @@ class UsersController < ApplicationController
   def load_user
     @user = User.find_by(id: params[:id])
     return if @user
+
     flash[:warning] = "User not fond"
     redirect_to root_path
   end
